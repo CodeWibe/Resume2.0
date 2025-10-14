@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Resume | Ajay Chavda</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Chosen Palette: Calm Harmony (Slate, Amber, Teal) -->
+    <!-- Application Structure Plan: A single-page dashboard with top navigation linking to anchor sections (Overview, Skills, Experience, Education). This structure was chosen to allow non-linear exploration, enabling a recruiter to quickly jump to the most relevant information. The key interaction is the skills dashboard, where a radar chart dynamically updates based on user-selected categories, providing a more engaging and memorable showcase of technical abilities compared to a static list. The experience section uses a tabbed layout to cleanly separate professional roles from projects and internships, improving clarity and reducing cognitive load. -->
+    <!-- Visualization & Content Choices: 
+        1. Skills List -> Goal: Compare & Inform -> Viz: Interactive Radar Chart -> Interaction: Filter buttons ('.NET', 'Frontend', etc.) update the chart data dynamically -> Justification: A radar chart visually represents proficiency strengths across different domains more effectively than a list. Filtering allows users to focus on specific tech stacks relevant to the job opening. -> Library: Chart.js (Canvas).
+        2. Experience/Projects -> Goal: Organize & Detail -> Presentation: Vertical Timeline/Tabbed Cards -> Interaction: Tabs switch between 'Professional', 'Projects', and 'Internships' content panes. -> Justification: A timeline is intuitive for chronological data. Tabs prevent an overwhelmingly long page scroll by grouping related content, making the information easier to navigate and digest. -> Method: HTML/CSS/JS.
+        3. Quantified Achievements -> Goal: Inform with Impact -> Presentation: Bolded text within descriptions -> Interaction: None -> Justification: Highlighting metrics like "15+ new features" or "4 hours weekly saved" draws immediate attention to the candidate's impact. -> Method: HTML/CSS.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap');
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 400px;
+            max-height: 50vh;
+        }
+        @media (min-width: 768px) {
+            chart-container {
+                height: 500px;
+            }
+        }
+        .nav-link.active {
+            color: #0d9488;
+            border-bottom-color: #0d9488;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800">
+
+    <div id="app" class="max-w-7xl mx-auto p-4 sm:p-6 lg:p-8">
+        
+        <header class="flex flex-col md:flex-row justify-between items-center border-b border-slate-200 pb-6 mb-8">
+            <div>
+                <h1 class="text-4xl font-bold text-slate-900">AJAY CHAVDA</h1>
+                <p class="text-xl text-teal-700">.NET Developer</p>
+            </div>
+            <nav id="main-nav" class="mt-4 md:mt-0 flex flex-wrap justify-center space-x-4 sm:space-x-6 text-sm font-medium">
+                <a href="#overview" class="nav-link text-slate-600 hover:text-teal-600 transition duration-300 border-b-2 border-transparent pb-1">Overview</a>
+                <a href="#skills" class="nav-link text-slate-600 hover:text-teal-600 transition duration-300 border-b-2 border-transparent pb-1">Skills</a>
+                <a href="#experience" class="nav-link text-slate-600 hover:text-teal-600 transition duration-300 border-b-2 border-transparent pb-1">Experience</a>
+                <a href="#education" class="nav-link text-slate-600 hover:text-teal-600 transition duration-300 border-b-2 border-transparent pb-1">Education</a>
+            </nav>
+        </header>
+
+        <main>
+            <section id="overview" class="mb-16 scroll-mt-24">
+                <h2 class="text-3xl font-bold text-slate-900 border-b-2 border-teal-500 pb-2 mb-6">Overview</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="md:col-span-2 bg-white p-6 rounded-lg shadow-sm">
+                        <h3 class="text-xl font-semibold text-slate-800 mb-3">Professional Summary</h3>
+                        <p class="text-slate-600 leading-relaxed">
+                            Highly focused .NET Developer with <strong>1+ year</strong> of professional, full-stack development experience. Expertise in building robust web applications using C#, ASP.NET MVC, and the ABP Zero framework. Successfully contributed to production-level features, implemented responsive frontends, and managed complex SQL database integrations. Eager to apply skills in the Microsoft stack to deliver scalable and technically excellent solutions.
+                        </p>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-sm">
+                        <h3 class="text-xl font-semibold text-slate-800 mb-4">Contact & Links</h3>
+                        <div class="space-y-3 text-slate-600">
+                             <p><strong>Email:</strong> chavdaajay202@gmail.com</p>
+                            <p><strong>Phone:</strong> +91 9157818145</p>
+                            <div class="flex space-x-4 pt-2">
+                                <a href="https://linkedin.com/in/chavdaajay" target="_blank" class="text-teal-600 hover:text-teal-800">LinkedIn</a>
+                                <a href="https://github.com/CodeWibe" target="_blank" class="text-teal-600 hover:text-teal-800">GitHub</a>
+                                <a href="https://credly.com/users/chavda-ajay" target="_blank" class="text-teal-600 hover:text-teal-800">Credly</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="skills" class="mb-16 scroll-mt-24">
+                <h2 class="text-3xl font-bold text-slate-900 border-b-2 border-teal-500 pb-2 mb-6">Technical Skills Dashboard</h2>
+                <div class="bg-white p-6 rounded-lg shadow-sm">
+                    <p class="text-center text-slate-600 mb-4">This chart provides a visual representation of my technical abilities. Use the buttons below to filter the skills by category and see how my expertise aligns with your needs.</p>
+                    <div id="skill-filters" class="flex flex-wrap justify-center gap-2 mb-6">
+                        <button data-filter="all" class="bg-teal-600 text-white px-4 py-2 rounded-full text-sm font-medium">All Skills</button>
+                        <button data-filter=".NET Stack" class="bg-slate-200 text-slate-700 px-4 py-2 rounded-full text-sm font-medium hover:bg-teal-100">.NET Stack</button>
+                        <button data-filter="Database" class="bg-slate-200 text-slate-700 px-4 py-2 rounded-full text-sm font-medium hover:bg-teal-100">Database</button>
+                        <button data-filter="Frontend" class="bg-slate-200 text-slate-700 px-4 py-2 rounded-full text-sm font-medium hover:bg-teal-100">Frontend</button>
+                        <button data-filter="Tools" class="bg-slate-200 text-slate-700 px-4 py-2 rounded-full text-sm font-medium hover:bg-teal-100">Tools</button>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="skillsChart"></canvas>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="experience" class="mb-16 scroll-mt-24">
+                <h2 class="text-3xl font-bold text-slate-900 border-b-2 border-teal-500 pb-2 mb-6">Experience & Projects</h2>
+                <div class="w-full">
+                    <div class="mb-4 border-b border-slate-200">
+                        <nav id="experience-tabs" class="-mb-px flex space-x-6" aria-label="Tabs">
+                            <button data-tab="professional" class="experience-tab whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm text-teal-600 border-teal-500">Professional</button>
+                            <button data-tab="projects" class="experience-tab whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm text-slate-500 hover:text-slate-700 hover:border-slate-300 border-transparent">Projects</button>
+                            <button data-tab="internships" class="experience-tab whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm text-slate-500 hover:text-slate-700 hover:border-slate-300 border-transparent">Internships</button>
+                        </nav>
+                    </div>
+                    <div id="experience-content" class="bg-white p-6 rounded-lg shadow-sm">
+                        <!-- Content will be injected by JS -->
+                    </div>
+                </div>
+            </section>
+
+            <section id="education" class="scroll-mt-24">
+                <h2 class="text-3xl font-bold text-slate-900 border-b-2 border-teal-500 pb-2 mb-6">Education</h2>
+                <div class="bg-white p-6 rounded-lg shadow-sm">
+                    <h3 class="text-xl font-semibold text-slate-800">Bachelor of Engineering in Computer Science</h3>
+                    <p class="text-slate-600">Shri Labhubhai Trivedi Institute Of Engineering & Technology, Gujarat Technological University (GTU)</p>
+                    <p class="text-sm text-slate-500 mt-1">2021 – 2025 | CGPA: 7.11</p>
+                </div>
+            </section>
+        </main>
+    </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+
+    const skillsData = {
+        '.NET Stack': [
+            { skill: 'C#', level: 9 },
+            { skill: 'ASP.NET MVC', level: 9 },
+            // Removed '.NET Framework' as requested
+            { skill: 'ABP Zero', level: 8 }, 
+            { skill: 'Entity Framework', level: 8 },
+            { skill: 'LINQ', level: 8 },
+        ],
+        'Database': [
+            { skill: 'SQL', level: 8 },
+            { skill: 'SQL Server', level: 8 },
+        ],
+        'Frontend': [
+            { skill: 'HTML5', level: 8 },
+            { skill: 'CSS', level: 8 },
+            { skill: 'JS', level: 8 },
+            { skill: 'Bootstrap', level: 8 },
+            { skill: 'Responsive Design', level: 9 },
+        ],
+        'Tools': [
+            { skill: 'Visual Studio', level: 9 },
+            { skill: 'VS Code', level: 8 },
+            { skill: 'Git & GitHub', level: 8 },
+            { skill: 'SDLC', level: 7 },
+        ]
+    };
+
+    const experienceData = {
+        professional: `
+            <div class="border-l-4 border-teal-500 pl-4">
+                <h3 class="text-xl font-semibold text-slate-800">Junior Developer</h3>
+                <p class="font-medium text-slate-600">RebbitWeb | Rajkot, India</p>
+                <p class="text-sm text-slate-500 mb-3">February 2024 – October 2024</p>
+                <ul class="list-disc list-inside space-y-2 text-slate-600">
+                    <li>Developed and maintained scalable, full-stack web applications using C#, ASP.NET MVC, and the ABP Zero enterprise framework.</li>
+                    <li>Contributed to the implementation of <strong class="font-semibold text-teal-700">15+ new features</strong> within critical system modules, resulting in a 15% increase in user adoption.</li>
+                    <li>Enhanced user experience by implementing responsive designs across <strong class="font-semibold text-teal-700">5 core application interfaces</strong>, reducing mobile display issues by an estimated 30%.</li>
+                    <li>Managed database operations and query optimization using Entity Framework and raw SQL.</li>
+                </ul>
+            </div>
+        `,
+        projects: `
+            <div class="space-y-6">
+                <div class="border-l-4 border-teal-500 pl-4">
+                    <h3 class="text-xl font-semibold text-slate-800">Petroleum Management System (PMS)</h3>
+                    <p class="text-sm text-slate-500 mb-3">Stack: ASP.NET MVC, SQL, Entity Framework, ABP Zero</p>
+                    <ul class="list-disc list-inside space-y-2 text-slate-600">
+                        <li>**Architected and developed a full-stack web application** for fuel stations, centralizing real-time pump-level sales tracking and inventory data.</li>
+                        <li>Utilized the **ABP Zero** framework to **fully automate tank inventory reconciliation**, which drastically improved data integrity and accelerated financial reporting accuracy.</li>
+                    </ul>
+                </div>
+                <div class="border-l-4 border-teal-500 pl-4">
+                    <h3 class="text-xl font-semibold text-slate-800">Bus Rental Management System</h3>
+                    <p class="text-sm text-slate-500 mb-3">Stack: ASP.NET MVC, SQL, HTML, CSS, JS, ABP Zero, LinQ</p>
+                    <ul class="list-disc list-inside space-y-2 text-slate-600">
+                        <li>**Built a comprehensive B2B web platform** using ASP.NET MVC and LinQ to manage fleet availability, process secure customer bookings, and handle operator logistics.</li>
+                        <li>Implemented specialized modules for owner management and detailed booking history, **improving overall data clarity and reducing reliance on manual reporting processes by 20%.**</li>
+                    </ul>
+                </div>
+            </div>
+        `,
+        internships: `
+             <div class="space-y-6">
+                <div class="border-l-4 border-teal-500 pl-4">
+                    <h3 class="text-xl font-semibold text-slate-800">Python Essentials Intern</h3>
+                    <p class="font-medium text-slate-600">Cisco Networking Academy</p>
+                    <p class="text-sm text-slate-500 mb-3">August 2024 – September 2024</p>
+                    <ul class="list-disc list-inside space-y-2 text-slate-600">
+                        <li>Mastered foundational Python programming concepts, with a strong focus on Object-Oriented Programming (OOP) principles.</li>
+                        <li>Applied Python skills to perform data processing tasks for automation.</li>
+                    </ul>
+                </div>
+                <div class="border-l-4 border-teal-500 pl-4">
+                    <h3 class="text-xl font-semibold text-slate-800">AI Intern</h3>
+                    <p class="font-medium text-slate-600">IBM</p>
+                    <p class="text-sm text-slate-500 mb-3">June 2024 – July 2024</p>
+                    <ul class="list-disc list-inside space-y-2 text-slate-600">
+                        <li>Trained a Machine Learning model using Python and scikit-learn to analyze and process complex datasets.</li>
+                        <li>Utilized IBM Cloud services, including Watson Studio, for robust data ingestion and preparation.</li>
+                    </ul>
+                </div>
+            </div>
+        `
+    };
+
+    const skillsCtx = document.getElementById('skillsChart').getContext('2d');
+    let skillsChart;
+
+    function createOrUpdateChart(filter = 'all') {
+        let labels = [];
+        let data = [];
+
+        if (filter === 'all') {
+            Object.values(skillsData).forEach(category => {
+                category.forEach(item => {
+                    labels.push(item.skill);
+                    data.push(item.level);
+                });
+            });
+        } else {
+            skillsData[filter].forEach(item => {
+                labels.push(item.skill);
+                data.push(item.level);
+            });
+        }
+        
+        const chartData = {
+            labels: labels,
+            datasets: [{
+                label: 'Proficiency Level (out of 10)',
+                data: data,
+                backgroundColor: 'rgba(15, 118, 110, 0.2)',
+                borderColor: 'rgb(13, 148, 136)',
+                borderWidth: 2,
+                pointBackgroundColor: 'rgb(13, 148, 136)',
+                pointBorderColor: '#fff',
+                pointHoverBackgroundColor: '#fff',
+                pointHoverBorderColor: 'rgb(13, 148, 136)'
+            }]
+        };
+
+        if (skillsChart) {
+            skillsChart.data = chartData;
+            skillsChart.update();
+        } else {
+            skillsChart = new Chart(skillsCtx, {
+                type: 'radar',
+                data: chartData,
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        r: {
+                            angleLines: { color: 'rgba(0, 0, 0, 0.1)' },
+                            grid: { color: 'rgba(0, 0, 0, 0.1)' },
+                            pointLabels: { 
+                                font: { size: 12 },
+                                color: '#334155'
+                            },
+                            ticks: {
+                                backdropColor: 'rgba(255, 255, 255, 0.75)',
+                                color: '#64748b',
+                                stepSize: 2,
+                                beginAtZero: true,
+                                max: 10
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                            labels: { color: '#334155' }
+                        }
+                    }
+                }
+            });
+        }
+    }
+    
+    document.getElementById('skill-filters').addEventListener('click', (e) => {
+        if (e.target.tagName === 'BUTTON') {
+            const filter = e.target.dataset.filter;
+            createOrUpdateChart(filter);
+            document.querySelectorAll('#skill-filters button').forEach(btn => {
+                btn.classList.remove('bg-teal-600', 'text-white');
+                btn.classList.add('bg-slate-200', 'text-slate-700');
+            });
+            e.target.classList.add('bg-teal-600', 'text-white');
+            e.target.classList.remove('bg-slate-200', 'text-slate-700');
+        }
+    });
+
+    const experienceTabs = document.getElementById('experience-tabs');
+    const experienceContent = document.getElementById('experience-content');
+    
+    experienceTabs.addEventListener('click', (e) => {
+        if (e.target.tagName === 'BUTTON') {
+            const tab = e.target.dataset.tab;
+            experienceContent.innerHTML = experienceData[tab];
+            
+            document.querySelectorAll('.experience-tab').forEach(t => {
+                t.classList.remove('text-teal-600', 'border-teal-500');
+                t.classList.add('text-slate-500', 'border-transparent');
+            });
+            
+            e.target.classList.add('text-teal-600', 'border-teal-500');
+            e.target.classList.remove('text-slate-500', 'border-transparent');
+        }
+    });
+
+    const navLinks = document.querySelectorAll('.nav-link');
+    const sections = document.querySelectorAll('main section');
+    
+    function updateActiveNavLink() {
+        let currentSectionId = '';
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            if (pageYOffset >= sectionTop - 120) {
+                currentSectionId = section.getAttribute('id');
+            }
+        });
+
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href') === `#${currentSectionId}`) {
+                link.classList.add('active');
+            }
+        });
+    }
+
+    window.addEventListener('scroll', updateActiveNavLink);
+    
+    createOrUpdateChart();
+    experienceContent.innerHTML = experienceData.professional;
+    updateActiveNavLink();
+});
+</script>
+</body>
+</html>
