@@ -3,348 +3,146 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Interactive Resume | Ajay Chavda</title>
+    <title>Ajay Chavda - SEO Executive Resume</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <!-- Chosen Palette: Calm Harmony (Slate, Amber, Teal) -->
-    <!-- Application Structure Plan: A single-page dashboard with top navigation linking to anchor sections (Overview, Skills, Experience, Education). This structure was chosen to allow non-linear exploration, enabling a recruiter to quickly jump to the most relevant information. The key interaction is the skills dashboard, where a radar chart dynamically updates based on user-selected categories, providing a more engaging and memorable showcase of technical abilities compared to a static list. The experience section uses a tabbed layout to cleanly separate professional roles from projects and internships, improving clarity and reducing cognitive load. -->
-    <!-- Visualization & Content Choices: 
-        1. Skills List -> Goal: Compare & Inform -> Viz: Interactive Radar Chart -> Interaction: Filter buttons ('.NET', 'Frontend', etc.) update the chart data dynamically -> Justification: A radar chart visually represents proficiency strengths across different domains more effectively than a list. Filtering allows users to focus on specific tech stacks relevant to the job opening. -> Library: Chart.js (Canvas).
-        2. Experience/Projects -> Goal: Organize & Detail -> Presentation: Vertical Timeline/Tabbed Cards -> Interaction: Tabs switch between 'Professional', 'Projects', and 'Internships' content panes. -> Justification: A timeline is intuitive for chronological data. Tabs prevent an overwhelmingly long page scroll by grouping related content, making the information easier to navigate and digest. -> Method: HTML/CSS/JS.
-        3. Quantified Achievements -> Goal: Inform with Impact -> Presentation: Bolded text within descriptions -> Interaction: None -> Justification: Highlighting metrics like "15+ new features" or "4 hours weekly saved" draws immediate attention to the candidate's impact. -> Method: HTML/CSS.
-    -->
-    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
         body {
             font-family: 'Inter', sans-serif;
+            background-color: #f7f7f7;
         }
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap');
-        .chart-container {
-            position: relative;
-            width: 100%;
-            max-width: 700px;
-            margin-left: auto;
-            margin-right: auto;
-            height: 400px;
-            max-height: 50vh;
+        .section-heading {
+            border-bottom: 2px solid #10b981; /* Subtle, professional green accent */
+            padding-bottom: 4px;
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #1f2937; /* Dark Gray */
         }
-        @media (min-width: 768px) {
-            chart-container {
-                height: 500px;
-            }
+        .contact-detail {
+            font-size: 0.875rem;
+            color: #4b5563;
         }
-        .nav-link.active {
-            color: #0d9488;
-            border-bottom-color: #0d9488;
+        .experience-bullet {
+            list-style: none; /* Remove list bullets for super clean look */
+            margin-bottom: 0.5rem;
+            padding-left: 0;
+        }
+        .skill-list-item {
+            padding: 0.25rem 0;
+        }
+        /* Custom style for clean dividers in header */
+        .divider::before {
+            content: "|";
+            margin: 0 0.5rem;
+            color: #ccc;
         }
     </style>
 </head>
-<body class="bg-slate-50 text-slate-800">
+<body class="antialiased p-4 sm:p-8">
 
-    <div id="app" class="max-w-7xl mx-auto p-4 sm:p-6 lg:p-8">
-        
-        <header class="flex flex-col md:flex-row justify-between items-center border-b border-slate-200 pb-6 mb-8">
-            <div>
-                <h1 class="text-4xl font-bold text-slate-900">AJAY CHAVDA</h1>
-                <p class="text-xl text-teal-700">.NET Developer</p>
+    <div class="max-w-4xl mx-auto bg-white shadow-xl rounded-lg p-6 sm:p-10">
+
+        <!-- HEADER / CONTACT INFORMATION -->
+        <header class="pb-6 mb-6 border-b border-gray-200 text-center">
+            <h1 class="text-3xl sm:text-4xl font-extrabold text-gray-900 leading-tight tracking-tight">CHAVDA AJAY KAMLESHBHAI</h1>
+            <h2 class="text-xl sm:text-2xl font-semibold text-gray-600 mt-1">SEO Executive</h2>
+            
+            <!-- Line 1: Email, Phone, Location (Labeled for clarity) -->
+            <div class="mt-4 text-sm text-gray-700 flex flex-wrap justify-center items-center leading-relaxed">
+                <span class="contact-detail">Email: <a href="mailto:chavdaajay202@gmail.com" class="text-blue-600 hover:text-blue-800">chavdaajay202@gmail.com</a></span>
+                <span class="contact-detail divider">Phone: +91 9157818145</span>
+                <span class="contact-detail divider">Rajkot, Gujrat, India</span>
             </div>
-            <nav id="main-nav" class="mt-4 md:mt-0 flex flex-wrap justify-center space-x-4 sm:space-x-6 text-sm font-medium">
-                <a href="#overview" class="nav-link text-slate-600 hover:text-teal-600 transition duration-300 border-b-2 border-transparent pb-1">Overview</a>
-                <a href="#skills" class="nav-link text-slate-600 hover:text-teal-600 transition duration-300 border-b-2 border-transparent pb-1">Skills</a>
-                <a href="#experience" class="nav-link text-slate-600 hover:text-teal-600 transition duration-300 border-b-2 border-transparent pb-1">Experience</a>
-                <a href="#education" class="nav-link text-slate-600 hover:text-teal-600 transition duration-300 border-b-2 border-transparent pb-1">Education</a>
-            </nav>
+            
+            <!-- Line 2: Professional Links (Clean links) -->
+            <div class="mt-1 text-sm text-gray-900 flex flex-wrap justify-center items-center leading-relaxed font-semibold">
+                <span class="contact-detail">
+                    <a href="https://www.linkedin.com/in/chavdaajay/" target="_blank" class="text-blue-600 hover:text-blue-800">LinkedIn</a>
+                </span>
+                <span class="contact-detail divider">
+                    <a href="https://www.credly.com/users/chavda-ajay" target="_blank" class="text-blue-600 hover:text-blue-800">Credly Profile</a>
+                </span>
+            </div>
         </header>
 
-        <main>
-            <section id="overview" class="mb-16 scroll-mt-24">
-                <h2 class="text-3xl font-bold text-slate-900 border-b-2 border-teal-500 pb-2 mb-6">Overview</h2>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                    <div class="md:col-span-2 bg-white p-6 rounded-lg shadow-sm">
-                        <h3 class="text-xl font-semibold text-slate-800 mb-3">Professional Summary</h3>
-                        <p class="text-slate-600 leading-relaxed">
-                            Highly focused .NET Developer with <strong>1+ year</strong> of professional, full-stack development experience. Expertise in building robust web applications using C#, ASP.NET MVC, and the ABP Zero framework. Successfully contributed to production-level features, implemented responsive frontends, and managed complex SQL database integrations. Eager to apply skills in the Microsoft stack to deliver scalable and technically excellent solutions.
-                        </p>
-                    </div>
-                    <div class="bg-white p-6 rounded-lg shadow-sm">
-                        <h3 class="text-xl font-semibold text-slate-800 mb-4">Contact & Links</h3>
-                        <div class="space-y-3 text-slate-600">
-                             <p><strong>Email:</strong> chavdaajay202@gmail.com</p>
-                            <p><strong>Phone:</strong> +91 9157818145</p>
-                            <div class="flex space-x-4 pt-2">
-                                <a href="https://linkedin.com/in/chavdaajay" target="_blank" class="text-teal-600 hover:text-teal-800">LinkedIn</a>
-                                <a href="https://github.com/CodeWibe" target="_blank" class="text-teal-600 hover:text-teal-800">GitHub</a>
-                                <a href="https://credly.com/users/chavda-ajay" target="_blank" class="text-teal-600 hover:text-teal-800">Credly</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
+        <!-- PROFESSIONAL SUMMARY - TARGETED FOR TECH/SaaS -->
+        <section class="mb-6">
+            <h3 class="section-heading">PROFESSIONAL SUMMARY</h3>
+            <p class="text-base text-gray-700 leading-relaxed text-justify">
+                Highly motivated final-year <span class="font-bold">Computer Science Engineering</span> student (expected graduation 2025). Seeking the SEO Executive role at White Label Fox to contribute rigorous <span class="font-bold">technical analysis</span> and data-driven execution. Proven ability to leverage CS foundation (Python scripting, web architecture) and achieve <span class="font-bold">quantifiable results</span> (35% traffic growth) to optimize product visibility, execute scalable SEO strategies, and efficiently solve complex site health and indexing challenges.
+            </p>
+        </section>
 
-            <section id="skills" class="mb-16 scroll-mt-24">
-                <h2 class="text-3xl font-bold text-slate-900 border-b-2 border-teal-500 pb-2 mb-6">Technical Skills Dashboard</h2>
-                <div class="bg-white p-6 rounded-lg shadow-sm">
-                    <p class="text-center text-slate-600 mb-4">This chart provides a visual representation of my technical abilities. Use the buttons below to filter the skills by category and see how my expertise aligns with your needs.</p>
-                    <div id="skill-filters" class="flex flex-wrap justify-center gap-2 mb-6">
-                        <button data-filter="all" class="bg-teal-600 text-white px-4 py-2 rounded-full text-sm font-medium">All Skills</button>
-                        <button data-filter=".NET Stack" class="bg-slate-200 text-slate-700 px-4 py-2 rounded-full text-sm font-medium hover:bg-teal-100">.NET Stack</button>
-                        <button data-filter="Database" class="bg-slate-200 text-slate-700 px-4 py-2 rounded-full text-sm font-medium hover:bg-teal-100">Database</button>
-                        <button data-filter="Frontend" class="bg-slate-200 text-slate-700 px-4 py-2 rounded-full text-sm font-medium hover:bg-teal-100">Frontend</button>
-                        <button data-filter="Tools" class="bg-slate-200 text-slate-700 px-4 py-2 rounded-full text-sm font-medium hover:bg-teal-100">Tools</button>
-                    </div>
-                    <div class="chart-container">
-                        <canvas id="skillsChart"></canvas>
-                    </div>
-                </div>
-            </section>
-            
-            <section id="experience" class="mb-16 scroll-mt-24">
-                <h2 class="text-3xl font-bold text-slate-900 border-b-2 border-teal-500 pb-2 mb-6">Experience & Projects</h2>
-                <div class="w-full">
-                    <div class="mb-4 border-b border-slate-200">
-                        <nav id="experience-tabs" class="-mb-px flex space-x-6" aria-label="Tabs">
-                            <button data-tab="professional" class="experience-tab whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm text-teal-600 border-teal-500">Professional</button>
-                            <button data-tab="projects" class="experience-tab whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm text-slate-500 hover:text-slate-700 hover:border-slate-300 border-transparent">Projects</button>
-                            <button data-tab="internships" class="experience-tab whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm text-slate-500 hover:text-slate-700 hover:border-slate-300 border-transparent">Internships</button>
-                        </nav>
-                    </div>
-                    <div id="experience-content" class="bg-white p-6 rounded-lg shadow-sm">
-                        <!-- Content will be injected by JS -->
-                    </div>
-                </div>
-            </section>
+        <!-- CORE TECHNICAL & SEO SKILLS -->
+        <section class="mb-6">
+            <h3 class="section-heading">CORE TECHNICAL & SEO SKILLS</h3>
+            <div class="text-sm text-gray-700 space-y-2">
+                
+                <p><span class="font-bold text-gray-900">SEO Expertise:</span> Advanced Keyword Research, On-Page Optimization, Technical SEO Audit (<span class="font-bold">Core Web Vitals</span>), Competitor Analysis.</p>
+                <p><span class="font-bold text-gray-900">Digital Marketing:</span> Google Analytics, Google Search Console reporting, Digital Strategy fundamentals, Basic SEM.</p>
+                <p><span class="font-bold text-gray-900">Technical Skills:</span> HTML5/CSS3 Proficiency, Basic Python (Scripting/Data Handling), <span class="font-bold">Data Analysis</span>.</p>
+                <p><span class="font-bold text-gray-900">SEO Tools:</span> Google Keyword Planner, Microsoft Excel/Sheets (Strong Analytical Focus).</p>
+            </div>
+        </section>
 
-            <section id="education" class="scroll-mt-24">
-                <h2 class="text-3xl font-bold text-slate-900 border-b-2 border-teal-500 pb-2 mb-6">Education</h2>
-                <div class="bg-white p-6 rounded-lg shadow-sm">
-                    <h3 class="text-xl font-semibold text-slate-800">Bachelor of Engineering in Computer Science</h3>
-                    <p class="text-slate-600">Shri Labhubhai Trivedi Institute Of Engineering & Technology, Gujarat Technological University (GTU)</p>
-                    <p class="text-sm text-slate-500 mt-1">2021 – 2025 | CGPA: 7.11</p>
+        <!-- SEO PROJECTS & WORK EXPERIENCE -->
+        <section class="mb-6">
+            <h3 class="section-heading">SEO PROJECTS & EXPERIENCE</h3>
+
+            <!-- Project 1 -->
+            <div class="mb-4 pt-2">
+                <h4 class="font-bold text-gray-900 text-base">Project 1: Personal Blog/Website Optimization (Focus on Performance)</h4>
+                <div class="pl-4">
+                    <p class="experience-bullet text-sm text-gray-700 mt-1"><span class="font-bold">Action:</span> Executed advanced On-Page SEO using data analysis to target high-intent keywords; utilized Google Search Console and Keyword Planner.</p>
+                    <p class="experience-bullet text-sm text-gray-700"><span class="font-bold">Impact:</span> Achieved a 35% increase in organic impressions and target keyword ranking within a three-month monitoring period.</p>
                 </div>
-            </section>
-        </main>
+            </div>
+
+            <!-- Project 2 -->
+            <div class="pt-2">
+                <h4 class="font-bold text-gray-900 text-base">Project 2: Technical SEO Audit Simulation (Focus on Site Health)</h4>
+                <div class="pl-4">
+                    <p class="experience-bullet text-sm text-gray-700 mt-1"><span class="font-bold">Analysis:</span> Performed comprehensive technical audit prioritizing Core Web Vitals, site speed, and complex indexing status.</p>
+                    <p class="experience-bullet text-sm text-gray-700"><span class="font-bold">Proposal:</span> Developed technical proposals for resolving structural issues, optimizing resource loading times, and improving image delivery (alt tags/lazy loading).</p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- TECHNICAL TRAINING & ANALYTICAL EXPERIENCE -->
+        <section class="mb-6">
+            <h3 class="section-heading">TECHNICAL TRAINING & EXPERIENCE</h3>
+            <p class="font-bold text-gray-900 text-base">IBM SkillsBuild Summer GTU Internship Program (Artificial Intelligence)</p>
+            <p class="text-sm text-gray-600 mb-3">CSRBOX Foundation in collaboration with IBM SkillsBuild | 2 Weeks (June - July 2024)</p>
+            <div class="pl-4 text-sm text-gray-700">
+                <p class="experience-bullet">Gained foundational knowledge of AI/ML algorithms and data processing relevant to large-scale data analysis.</p>
+                <p class="experience-bullet">Honed analytical thinking and problem-solving skills, directly applicable to interpreting search algorithm updates and SEO performance data.</p>
+            </div>
+        </section>
+
+        <!-- EDUCATION -->
+        <section class="mb-6">
+            <h3 class="section-heading">EDUCATION</h3>
+            <div class="text-base text-gray-700 space-y-1">
+                <div class="flex justify-between items-start">
+                    <p class="font-bold text-gray-900">Bachelor of Engineering (B.E.) in Computer Science Engineering</p>
+                    <p class="text-sm font-bold text-gray-900 whitespace-nowrap">2021 – June 2025</p>
+                </div>
+                <p>Shri Labhubhai Trivedi Institute Of Engineering & Technology (GTU)</p>
+                <p>Cumulative Grade Point Average (CGPA): <span class="font-bold text-gray-900">7.11</span></p>
+            </div>
+        </section>
+
+        <!-- KEY COMPETENCIES -->
+        <section>
+            <h3 class="section-heading">KEY COMPETENCIES</h3>
+            <p class="text-sm text-gray-700 font-medium">
+                <span class="font-bold">Rapid Adaptability</span> | <span class="font-bold">Meticulous Accuracy</span> | <span class="font-bold">Technical Communication</span> | <span class="font-bold">Analytical Insight</span>
+            </p>
+        </section>
+
     </div>
 
-<script>
-document.addEventListener('DOMContentLoaded', () => {
-
-    const skillsData = {
-        '.NET Stack': [
-            { skill: 'C#', level: 9 },
-            { skill: 'ASP.NET MVC', level: 9 },
-            // Removed '.NET Framework' as requested
-            { skill: 'ABP Zero', level: 8 }, 
-            { skill: 'Entity Framework', level: 8 },
-            { skill: 'LINQ', level: 8 },
-        ],
-        'Database': [
-            { skill: 'SQL', level: 8 },
-            { skill: 'SQL Server', level: 8 },
-        ],
-        'Frontend': [
-            { skill: 'HTML5', level: 8 },
-            { skill: 'CSS', level: 8 },
-            { skill: 'JS', level: 8 },
-            { skill: 'Bootstrap', level: 8 },
-            { skill: 'Responsive Design', level: 9 },
-        ],
-        'Tools': [
-            { skill: 'Visual Studio', level: 9 },
-            { skill: 'VS Code', level: 8 },
-            { skill: 'Git & GitHub', level: 8 },
-            { skill: 'SDLC', level: 7 },
-        ]
-    };
-
-    const experienceData = {
-        professional: `
-            <div class="border-l-4 border-teal-500 pl-4">
-                <h3 class="text-xl font-semibold text-slate-800">Junior Developer</h3>
-                <p class="font-medium text-slate-600">RebbitWeb | Rajkot, India</p>
-                <p class="text-sm text-slate-500 mb-3">February 2024 – October 2024</p>
-                <ul class="list-disc list-inside space-y-2 text-slate-600">
-                    <li>Developed and maintained scalable, full-stack web applications using C#, ASP.NET MVC, and the ABP Zero enterprise framework.</li>
-                    <li>Contributed to the implementation of <strong class="font-semibold text-teal-700">15+ new features</strong> within critical system modules, resulting in a 15% increase in user adoption.</li>
-                    <li>Enhanced user experience by implementing responsive designs across <strong class="font-semibold text-teal-700">5 core application interfaces</strong>, reducing mobile display issues by an estimated 30%.</li>
-                    <li>Managed database operations and query optimization using Entity Framework and raw SQL.</li>
-                </ul>
-            </div>
-        `,
-        projects: `
-            <div class="space-y-6">
-                <div class="border-l-4 border-teal-500 pl-4">
-                    <h3 class="text-xl font-semibold text-slate-800">Petroleum Management System (PMS)</h3>
-                    <p class="text-sm text-slate-500 mb-3">Stack: ASP.NET MVC, SQL, Entity Framework, ABP Zero</p>
-                    <ul class="list-disc list-inside space-y-2 text-slate-600">
-                        <li>**Architected and developed a full-stack web application** for fuel stations, centralizing real-time pump-level sales tracking and inventory data.</li>
-                        <li>Utilized the **ABP Zero** framework to **fully automate tank inventory reconciliation**, which drastically improved data integrity and accelerated financial reporting accuracy.</li>
-                    </ul>
-                </div>
-                <div class="border-l-4 border-teal-500 pl-4">
-                    <h3 class="text-xl font-semibold text-slate-800">Bus Rental Management System</h3>
-                    <p class="text-sm text-slate-500 mb-3">Stack: ASP.NET MVC, SQL, HTML, CSS, JS, ABP Zero, LinQ</p>
-                    <ul class="list-disc list-inside space-y-2 text-slate-600">
-                        <li>**Built a comprehensive B2B web platform** using ASP.NET MVC and LinQ to manage fleet availability, process secure customer bookings, and handle operator logistics.</li>
-                        <li>Implemented specialized modules for owner management and detailed booking history, **improving overall data clarity and reducing reliance on manual reporting processes by 20%.**</li>
-                    </ul>
-                </div>
-            </div>
-        `,
-        internships: `
-             <div class="space-y-6">
-                <div class="border-l-4 border-teal-500 pl-4">
-                    <h3 class="text-xl font-semibold text-slate-800">Python Essentials Intern</h3>
-                    <p class="font-medium text-slate-600">Cisco Networking Academy</p>
-                    <p class="text-sm text-slate-500 mb-3">August 2024 – September 2024</p>
-                    <ul class="list-disc list-inside space-y-2 text-slate-600">
-                        <li>Mastered foundational Python programming concepts, with a strong focus on Object-Oriented Programming (OOP) principles.</li>
-                        <li>Applied Python skills to perform data processing tasks for automation.</li>
-                    </ul>
-                </div>
-                <div class="border-l-4 border-teal-500 pl-4">
-                    <h3 class="text-xl font-semibold text-slate-800">AI Intern</h3>
-                    <p class="font-medium text-slate-600">IBM</p>
-                    <p class="text-sm text-slate-500 mb-3">June 2024 – July 2024</p>
-                    <ul class="list-disc list-inside space-y-2 text-slate-600">
-                        <li>Trained a Machine Learning model using Python and scikit-learn to analyze and process complex datasets.</li>
-                        <li>Utilized IBM Cloud services, including Watson Studio, for robust data ingestion and preparation.</li>
-                    </ul>
-                </div>
-            </div>
-        `
-    };
-
-    const skillsCtx = document.getElementById('skillsChart').getContext('2d');
-    let skillsChart;
-
-    function createOrUpdateChart(filter = 'all') {
-        let labels = [];
-        let data = [];
-
-        if (filter === 'all') {
-            Object.values(skillsData).forEach(category => {
-                category.forEach(item => {
-                    labels.push(item.skill);
-                    data.push(item.level);
-                });
-            });
-        } else {
-            skillsData[filter].forEach(item => {
-                labels.push(item.skill);
-                data.push(item.level);
-            });
-        }
-        
-        const chartData = {
-            labels: labels,
-            datasets: [{
-                label: 'Proficiency Level (out of 10)',
-                data: data,
-                backgroundColor: 'rgba(15, 118, 110, 0.2)',
-                borderColor: 'rgb(13, 148, 136)',
-                borderWidth: 2,
-                pointBackgroundColor: 'rgb(13, 148, 136)',
-                pointBorderColor: '#fff',
-                pointHoverBackgroundColor: '#fff',
-                pointHoverBorderColor: 'rgb(13, 148, 136)'
-            }]
-        };
-
-        if (skillsChart) {
-            skillsChart.data = chartData;
-            skillsChart.update();
-        } else {
-            skillsChart = new Chart(skillsCtx, {
-                type: 'radar',
-                data: chartData,
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    scales: {
-                        r: {
-                            angleLines: { color: 'rgba(0, 0, 0, 0.1)' },
-                            grid: { color: 'rgba(0, 0, 0, 0.1)' },
-                            pointLabels: { 
-                                font: { size: 12 },
-                                color: '#334155'
-                            },
-                            ticks: {
-                                backdropColor: 'rgba(255, 255, 255, 0.75)',
-                                color: '#64748b',
-                                stepSize: 2,
-                                beginAtZero: true,
-                                max: 10
-                            }
-                        }
-                    },
-                    plugins: {
-                        legend: {
-                            position: 'top',
-                            labels: { color: '#334155' }
-                        }
-                    }
-                }
-            });
-        }
-    }
-    
-    document.getElementById('skill-filters').addEventListener('click', (e) => {
-        if (e.target.tagName === 'BUTTON') {
-            const filter = e.target.dataset.filter;
-            createOrUpdateChart(filter);
-            document.querySelectorAll('#skill-filters button').forEach(btn => {
-                btn.classList.remove('bg-teal-600', 'text-white');
-                btn.classList.add('bg-slate-200', 'text-slate-700');
-            });
-            e.target.classList.add('bg-teal-600', 'text-white');
-            e.target.classList.remove('bg-slate-200', 'text-slate-700');
-        }
-    });
-
-    const experienceTabs = document.getElementById('experience-tabs');
-    const experienceContent = document.getElementById('experience-content');
-    
-    experienceTabs.addEventListener('click', (e) => {
-        if (e.target.tagName === 'BUTTON') {
-            const tab = e.target.dataset.tab;
-            experienceContent.innerHTML = experienceData[tab];
-            
-            document.querySelectorAll('.experience-tab').forEach(t => {
-                t.classList.remove('text-teal-600', 'border-teal-500');
-                t.classList.add('text-slate-500', 'border-transparent');
-            });
-            
-            e.target.classList.add('text-teal-600', 'border-teal-500');
-            e.target.classList.remove('text-slate-500', 'border-transparent');
-        }
-    });
-
-    const navLinks = document.querySelectorAll('.nav-link');
-    const sections = document.querySelectorAll('main section');
-    
-    function updateActiveNavLink() {
-        let currentSectionId = '';
-        sections.forEach(section => {
-            const sectionTop = section.offsetTop;
-            if (pageYOffset >= sectionTop - 120) {
-                currentSectionId = section.getAttribute('id');
-            }
-        });
-
-        navLinks.forEach(link => {
-            link.classList.remove('active');
-            if (link.getAttribute('href') === `#${currentSectionId}`) {
-                link.classList.add('active');
-            }
-        });
-    }
-
-    window.addEventListener('scroll', updateActiveNavLink);
-    
-    createOrUpdateChart();
-    experienceContent.innerHTML = experienceData.professional;
-    updateActiveNavLink();
-});
-</script>
 </body>
 </html>
